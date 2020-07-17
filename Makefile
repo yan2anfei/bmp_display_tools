@@ -7,4 +7,6 @@ $(TARGET):$(SRC:%.c=%.o)
 	$(CC) -c -o $@ $<
 clean:
 	-@rm -rf *.o $(TARGET)
+install:
+	cp $(TARGET) /home/yan2anfei/Desktop/rootfs
 .PHONY:clean

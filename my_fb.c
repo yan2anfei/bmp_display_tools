@@ -443,7 +443,7 @@ struct my_fb *get_fb(void)
 		g_fb->var.bits_per_pixel = 8;
 		g_fb->var.grayscale = GRAYSCALE_8BIT;
 		g_fb->var.yoffset = 0;
-		g_fb->var.rotate = FB_ROTATE_UD;
+		g_fb->var.rotate = 0; //FB_ROTATE_UD;
 		g_fb->var.activate = FB_ACTIVATE_FORCE;
 		ret = ioctl(g_fb->fd, FBIOPUT_VSCREENINFO, &g_fb->var);
 		if (ret < 0) {
