@@ -53,14 +53,15 @@ static inline void do_show_xfer_bmp(struct bmp_handle *handle)
 	unsigned char *buf;
 	struct my_rect rect;
 
-	buf = malloc(info->biWidth * info->biHeight * 4);
+	printf("w:%d h:%d\n",info->biWidth, info->biHeight);
+	buf = malloc(info->biWidth * info->biHeight * 3 * 3);
 	if (!buf)
 		return;
-	xfer_bmp(handle, buf, info->biWidth * info->biHeight * 4,
-		 info->biWidth * 2, info->biHeight * 2);
+	xfer_bmp(handle, buf, info->biWidth * info->biHeight * 9,
+		 info->biWidth * 3, info->biHeight * 3);
 	rect.x = rect.y = 0;
-	rect.w = info->biWidth * 2;
-	rect.h = info->biHeight * 2;
+	rect.w = info->biWidth * 3;
+	rect.h = info->biHeight * 3;
 	mfb->clear();
 	mfb->copy_image(&rect, buf, BUFFER_FB);
 	free(buf);

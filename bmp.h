@@ -83,57 +83,54 @@ static inline int xfer_bmp(struct bmp_handle *handle, void *out, int size,
 	unsigned char *buf = (char *)(handle->hdr) + hdr->bfOffBits,
 		      *dst = out, *src;
 	unsigned char R, G, B;
+	int line_stripe = info->biWidth * 3;
 
-	if (size < (info->biWidth * info->biHeight) * 4) {
+	//bmp 行宽 4 字节对齐
+	while (line_stripe%4)
+		line_stripe++ ;
+
+	if (size < (info->biWidth * info->biHeight) * 9) {
 		E("out bmp buffer too small.\n");
 		return -1;
 	}
 
-	for (i = 0; i < height; i += 2) {
-		switch ((i / 2) % 3) {
+	for (i = 0; i < height ; i++) { 
+		switch ( (i % 9) / 3 ) {
 		case 0:
-			/* R */
 			k = 0;
 			break;
 		case 1:
-			/* B */
-			k = 2;
+			k = 1;
 			break;
 		case 2:
-			/* G */
-			k = 1;
+			k = 2;
 			break;
 		default:
 			printf("wrong i.\n");
 			break;
 		}
-		for (j = 0; j < width; j += 2, k++) {
-			src = buf + i / 2 * info->biWidth * 3 + j / 2 * 3;
+
+		for (j = 0; j < width ; j+=3 ) {
+		src = buf + i / 3 * line_stripe + j;
 			R = src[2];
 			G = src[1];
 			B = src[0];
 
-			switch (k % 3) {
+			switch (k) {
 			case 0:
-				/* R */
 				dst[i * width + j] = R;
 				dst[i * width + j + 1] = B;
-				dst[(i + 1) * width + j] = G;
-				dst[(i + 1) * width + j + 1] = R;
+				dst[i * width + j + 2] = G;
 				break;
 			case 1:
-				/* G */
 				dst[i * width + j] = G;
 				dst[i * width + j + 1] = R;
-				dst[(i + 1) * width + j] = B;
-				dst[(i + 1) * width + j + 1] = G;
+				dst[i * width + j + 2] = B;
 				break;
 			case 2:
-				/* B */
 				dst[i * width + j] = B;
 				dst[i * width + j + 1] = G;
-				dst[(i + 1) * width + j] = R;
-				dst[(i + 1) * width + j + 1] = B;
+				dst[i * width + j + 2] = R;
 				break;
 			default:
 				printf("wrong k.\n");
@@ -150,7 +147,6 @@ static inline int xfer_bmp(struct bmp_handle *handle, void *out, int size,
 		fd = -1;
 	}
 #endif
-
 	return 0;
 }
 
