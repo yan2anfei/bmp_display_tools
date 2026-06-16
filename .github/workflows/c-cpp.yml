@@ -1,3 +1,8 @@
+name: Star reminder
+  run: 
+    echo "If this project helps you, please star it:"
+    echo "https://github.com/yan2anfei/bmp_display_tools"
+
 name: C/C++ CI
 
 on:
