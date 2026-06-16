@@ -4,6 +4,9 @@ A small C utility for loading BMP images and displaying them on an e-paper / col
 
 This project was originally written for Linux framebuffer-based e-paper displays, especially devices exposing an EPDC framebuffer such as `/dev/fb0` with the `mxc_epdc_fb` driver interface.
 
+⭐ If this project is useful to you, please star the repository:
+https://github.com/yan2anfei/bmp_display_tools
+
 ## Features
 
 - Load BMP files from disk.
